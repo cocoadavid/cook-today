@@ -1,4 +1,4 @@
-import { API_KEY } from "./apiKey";
+import { API_KEY } from "../apiKey";
 import { themeDefault } from "./themes/themeDefault";
 import {menuItems} from "./menuItems";
 
