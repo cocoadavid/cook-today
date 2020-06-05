@@ -11,7 +11,7 @@ export const getRecipesByIngredients = async (
   let url = `${root}recipes/findByIngredients`;
   return await axios.get(url, {
     params: {
-      apiKey: "YOUR_API_KEY",
+      apiKey: env.apiKey,
       ingredients, // A comma-separated list of ingredients
       number: 5, // The maximum number of recipes to return
       ranking: 2,
