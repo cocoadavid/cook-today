@@ -15,6 +15,7 @@ import "moment/locale/hu";
 moment.locale("hu");
 
 const theme = createMuiTheme(env.theme);
+
 function App() {
   return (
     <LanguageProvider>
@@ -26,7 +27,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <NavigationBar
-            variant
+            variant="vertical"
             content={
               <Switch>
                 <Route exact path="/" component={HomePage} />

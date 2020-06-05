@@ -1,24 +1,23 @@
-import { API_KEY } from "../apiKey";
 import { themeDefault } from "./themes/themeDefault";
 import {menuItems} from "./menuItems";
 
-const environments = {
+const profiles = {
   TEST: {
     name: "test",
     title: "CookToday",
-    apiKey: API_KEY,
     apiRoot: "https://api.spoonacular.com/",
+    apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY,
     menuItems: menuItems,
     theme: themeDefault,
   },
   PROD: {
     name: "production",
     title: "CookToday",
-    apiKey: API_KEY,
     apiRoot: "https://api.spoonacular.com/",
+    apiKey: process.env.REACT_APP_SPOONACULAR_API_KEY,
     menuItems: menuItems,
     theme: themeDefault,
   },
 };
 
-export const env = environments.TEST;
+export const env = profiles.TEST;
