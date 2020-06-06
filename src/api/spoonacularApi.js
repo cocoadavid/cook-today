@@ -25,3 +25,12 @@ export const getIngredients = async (query) => {
     },
   });
 };
+
+export const getRecipeInfoById = async (id) => {
+  let url = `${root}recipes/${id}/information`;
+  return await axios.get(url, {
+    params: {
+      apiKey: env.apiKey,
+    },
+  });
+};

@@ -10,7 +10,7 @@ import { getIngredients } from "../../api/spoonacularApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 500,
+    // width: 500,
     "& > * + *": {
       marginTop: theme.spacing(3),
     },
@@ -36,6 +36,7 @@ export default function IngredientSearch(props) {
   return (
     <div className={classes.root}>
       <Autocomplete
+        fullWidth
         multiple
         options={options}
         getOptionLabel={(option) => option.name}

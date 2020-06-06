@@ -12,6 +12,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import moment from "moment";
 import MomentUtils from "@date-io/moment";
 import "moment/locale/hu";
+import Container from "@material-ui/core/Container";
 moment.locale("hu");
 
 const theme = createMuiTheme(env.theme);
@@ -29,27 +30,29 @@ function App() {
           <NavigationBar
             variant="horizontal"
             content={
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                {env.menuItems.map((menuItem) =>
-                  menuItem.children ? (
-                    menuItem.children.map((childItem) => (
+              <Container maxWidth="xl">
+                <Switch>
+                  <Route exact path="/" component={HomePage} />
+                  {env.menuItems.map((menuItem) =>
+                    menuItem.children ? (
+                      menuItem.children.map((childItem) => (
+                        <Route
+                          key={childItem.url}
+                          path={childItem.url}
+                          component={childItem.component}
+                        />
+                      ))
+                    ) : (
                       <Route
-                        key={childItem.url}
-                        path={childItem.url}
-                        component={childItem.component}
+                        key={menuItem.url}
+                        path={menuItem.url}
+                        component={menuItem.component}
                       />
-                    ))
-                  ) : (
-                    <Route
-                      key={menuItem.url}
-                      path={menuItem.url}
-                      component={menuItem.component}
-                    />
-                  )
-                )}
-                <Route component={PageNotFound} />
-              </Switch>
+                    )
+                  )}
+                  <Route component={PageNotFound} />
+                </Switch>
+              </Container>
             }
           />
         </ThemeProvider>

@@ -84,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  xlToolbar: {
+    maxWidth: 1920,
+    margin: "0 auto",
+    width: "100%",
+  },
   listItem: {
     position: "relative",
     display: "inline-flex",
@@ -192,7 +197,7 @@ const HorizontalNavigation = ({ content, withIcon, ...props }) => {
   return (
     <div className={classes.root}>
       <AppBar position="sticky">
-        <Toolbar variant="dense">
+        <Toolbar variant="dense" className={classes.xlToolbar}>
           <IconButton
             edge="start"
             className={classes.menuButton}
