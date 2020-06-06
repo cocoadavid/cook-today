@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   content: {
     flexGrow: 1,
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   homeLink: {
-    marginRight: theme.spacing(3),
+    padding: `0 ${theme.spacing(2)}px`,
   },
   toolbar: {
     ...theme.mixins.toolbar,
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     display: "inline-flex",
     width: "auto",
-    color: "#fff",
+    color: theme.palette.primary.contrastText,
     minHeight: minHeight,
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -179,7 +179,7 @@ const HorizontalNavigation = ({ content, withIcon, ...props }) => {
     <div>
       <div className={classes.toolbar}>
         <div className={classes.logoWrapper}>
-        <img src={logo} alt="logo" className={classes.logo} />
+          <img src={logo} alt="logo" className={classes.logo} />
         </div>
       </div>
       <Divider />

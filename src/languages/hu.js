@@ -11,6 +11,7 @@ const hu = {
   favouriteFood: "Kedvenc étel",
   forms: "Űrlapok",
   home: "Főoldal",
+  ingredients: "Alapanyagok",
   name: "Név",
   linechart: "Vonaldiagram",
   loggingIn: "Bejelentkezés...",
@@ -19,10 +20,11 @@ const hu = {
   pageNotFoundLong: "Sajnáljuk, a keresett oldalt sajnos nem találjuk",
   pushMe: "Nyomj meg!",
   registrationForFreeIceCream: "Regisztráció ingyen fagyira",
+  search: "Keresés",
   showCode: "Mutasd a kódot",
   starWarsMovies: "Star Wars filmek",
   type: "Típus",
-  user: "Felhasználó"
+  user: "Felhasználó",
 };
 
 export default hu;

@@ -11,6 +11,7 @@ const en = {
   favouriteFood: "Favourite food",
   forms: "Forms",
   home: "Home",
+  ingredients: "Ingredients",
   linechart: "Linechart",
   loggingIn: "Logging in...",
   logout: "Log Out",
@@ -19,10 +20,11 @@ const en = {
   pageNotFoundLong: "Sorry, we couldn't found the page you are looking for.",
   pushMe: "Push Me!",
   registrationForFreeIceCream: "Registration for Free Ice Cream",
+  search: "Search",
   showCode: "Show me the code",
   starWarsMovies: "Star Wars movies",
   type: "Type",
-  user: "User"
+  user: "User",
 };
 
 export default en;
