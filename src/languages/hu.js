@@ -21,6 +21,7 @@ const hu = {
   pushMe: "Nyomj meg!",
   registrationForFreeIceCream: "Regisztráció ingyen fagyira",
   search: "Keresés",
+  searchIngredients: "Hozzávalók keresése",
   showCode: "Mutasd a kódot",
   starWarsMovies: "Star Wars filmek",
   type: "Típus",

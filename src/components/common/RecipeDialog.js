@@ -1,0 +1,178 @@
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import Icon from "@mdi/react";
+import {
+  mdiBarleyOff,
+  mdiBatteryOff,
+  mdiCircleOutline,
+  mdiGoogleFit,
+  mdiLeaf,
+  mdiPiggyBank,
+  mdiStar,
+} from "@mdi/js";
+import Typography from "@material-ui/core/Typography";
+import { LanguageContext } from "../../context/LanguageContext";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { convertToHoursAndMinutes } from "../../utils/helperFunctions";
+import Grid from "@material-ui/core/Grid";
+
+const useStyles = makeStyles((theme) => ({
+  extraInfo: {
+    margin: `8px 0 4px 0`,
+  },
+  iconContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  secondaryColorAvatar: {
+    margin: `4px`,
+    color: theme.palette.secondary.contrastText,
+    backgroundColor: theme.palette.secondary.main,
+  },
+  imgContainer: {
+    maxHeight: 400,
+    overflow: "hidden",
+  },
+  image: {
+    width: "100%",
+  },
+  badge: {
+    margin: "4px 8px",
+  },
+  dialogTitle: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
+  list: {
+    marginBottom: theme.spacing(2),
+  },
+  methodListItem: {
+    alignItems: "baseline",
+  },
+}));
+
+const icons = [
+  { title: "gluten-free", path: mdiBarleyOff, name: "glutenFree" },
+  { title: "dairy-free", path: mdiBatteryOff, name: "dairyFree" },
+  { title: "vegetarian", path: mdiLeaf, name: "vegetarian" },
+  { title: "healthy", path: mdiGoogleFit, name: "veryHealthy" },
+  { title: "budget-friendly", path: mdiPiggyBank, name: "cheap" },
+  { title: "popular", path: mdiStar, name: "veryPopular" },
+];
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
+  const language = useContext(LanguageContext);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const classes = useStyles();
+  return (
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="recipe-dialog"
+      fullScreen={fullScreen}
+    >
+      <DialogTitle
+        id={`recipe-dialog-${recipeId}`}
+        className={classes.dialogTitle}
+      >
+        <Typography variant="h5" component="span">
+          {recipeInfo.title}
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <div className={classes.imgContainer}>
+          <img
+            className={classes.image}
+            src={`https://spoonacular.com/recipeImages/${recipeId}-636x393.${recipeInfo.imageType}`}
+            alt={recipeInfo.title}
+          />
+        </div>
+        <Grid container className={classes.extraInfo}>
+          <Grid item xs={8} sm={6}>
+            <Typography variant="subtitle2" color="textPrimary">
+              <span style={{ color: "#F2385A" }}>ready in </span>
+              {convertToHoursAndMinutes(recipeInfo.readyInMinutes)}
+            </Typography>
+            <Typography variant="subtitle2" color="textPrimary">
+              <span style={{ color: "#F2385A" }}>serves </span>
+              {recipeInfo.servings} person(s)
+            </Typography>
+          </Grid>
+          <Grid item xs={4} sm={6} className={classes.iconContainer}>
+            {icons.map(
+              (item) =>
+                recipeInfo[item.name] && (
+                  <Avatar
+                    key={item.name}
+                    className={classes.secondaryColorAvatar}
+                    title={item.title}
+                  >
+                    <Icon path={item.path} size={1} />
+                  </Avatar>
+                )
+            )}
+          </Grid>
+        </Grid>
+        <Typography variant="h6">{language.dictionary.ingredients}</Typography>
+        <List className={classes.list} dense>
+          {recipeInfo.extendedIngredients &&
+            recipeInfo.extendedIngredients.map((item) => (
+              <ListItem key={item.original}>
+                <ListItemIcon style={{ minWidth: 32 }}>
+                  <Icon path={mdiCircleOutline} size={0.75} />
+                  {/*<img*/}
+                  {/*  alt={item.name}*/}
+                  {/*  src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}*/}
+                  {/*  style={{ width: 40, height: 40 }}*/}
+                  {/*/>*/}
+                </ListItemIcon>
+                <ListItemText primary={item.original} />
+              </ListItem>
+            ))}
+        </List>
+        <Typography variant="h6">Method</Typography>
+        <List className={classes.list} dense>
+          {recipeInfo.analyzedInstructions &&
+            recipeInfo.analyzedInstructions[0] &&
+            recipeInfo.analyzedInstructions[0].steps.map((step) => (
+              <ListItem
+                className={classes.methodListItem}
+                key={`step_${step.number}_${recipeId}`}
+              >
+                <ListItemIcon style={{ minWidth: 32 }}>
+                  {step.number}.
+                </ListItemIcon>
+                <ListItemText primary={step.step} />
+              </ListItem>
+            ))}
+        </List>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+RecipeDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  recipeId: PropTypes.number,
+  recipeInfo: PropTypes.object.isRequired,
+};
+
+export default RecipeDialog;

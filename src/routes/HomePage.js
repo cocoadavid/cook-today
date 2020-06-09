@@ -1,60 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { getExampleRecipes } from "../api/testApi";
+import { getExampleRecipeInfo, getExampleRecipes } from "../api/mockApi";
 import Grid from "@material-ui/core/Grid";
-import RecipeCardByIngredient from "../components/common/RecipeCardByIngredients";
 import IngredientSearch from "../components/common/IngredientSearch";
 import {
+  getInstructions,
   getRecipeInfoById,
   getRecipesByIngredients,
 } from "../api/spoonacularApi";
-import Zoom from "@material-ui/core/Zoom";
+import RecipeCardByIngredientsList from "../components/homePage/RecipeCardByIngredientsList";
+import RecipeDialog from "../components/common/RecipeDialog";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
-  const [slideIn, setSlideIn] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState(0);
+  const [selectedRecipeInfo, setSelectedRecipeInfo] = useState({});
+  const [dlgOpen, setDlgOpen] = useState(false);
+  const [zoomIn, setZoomIn] = useState(false);
 
   const onIngredientSelect = (value = []) => {
     // value is an array of objects
     let ingredientListString = value.map((o) => o.name).join(",");
     if (ingredientListString) {
-      setSlideIn(false);
+      setZoomIn(false);
       loadRecipes(ingredientListString);
     }
   };
 
   const onRecipeClick = (id) => {
     loadRecipeById(id);
+    setSelectedRecipeId(id);
   };
 
   useEffect(() => {
     setRecipes(getExampleRecipes());
-    setSlideIn(true);
+    setZoomIn(true);
   }, []);
 
   return (
-    <div>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12} lg={6} xl={4}>
           <IngredientSearch onSelection={onIngredientSelect} />
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
-        {recipes.map((r, idx) => (
-          <Zoom
-            key={`recipe-card-${r.id}`}
-            in={slideIn}
-            mountOnEnter
-            unmountOnExit
-            timeout={300}
-            style={{ transitionDelay: idx * 49 + 1 }}
-          >
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <RecipeCardByIngredient recipe={r} onClick={onRecipeClick} />
-            </Grid>
-          </Zoom>
-        ))}
-      </Grid>
-    </div>
+      <RecipeCardByIngredientsList
+        recipes={recipes}
+        zoomIn={zoomIn}
+        onRecipeClick={onRecipeClick}
+      />
+      <RecipeDialog
+        open={dlgOpen}
+        handleClose={() => setDlgOpen(false)}
+        recipeId={selectedRecipeId}
+        recipeInfo={selectedRecipeInfo}
+      />
+    </>
   );
 
   function loadRecipes(ingredients) {
@@ -62,15 +62,21 @@ const HomePage = () => {
       .then((res) => {
         console.log("recipes:", res.data);
         setRecipes(res.data);
-        setSlideIn(true);
+        setZoomIn(true);
       })
       .catch((error) => console.log(error));
   }
 
   function loadRecipeById(id) {
+    // setSelectedRecipeInfo(getExampleRecipeInfo());
+    // setDlgOpen(true);
+    // console.log(getExampleRecipeInfo());
+
     getRecipeInfoById(id)
       .then((res) => {
         console.log("recipe", res.data);
+        setSelectedRecipeInfo(res.data);
+        setDlgOpen(true);
       })
       .catch((error) => console.log(error));
   }

@@ -21,6 +21,7 @@ const en = {
   pushMe: "Push Me!",
   registrationForFreeIceCream: "Registration for Free Ice Cream",
   search: "Search",
+  searchIngredients: "Search Ingredients",
   showCode: "Show me the code",
   starWarsMovies: "Star Wars movies",
   type: "Type",

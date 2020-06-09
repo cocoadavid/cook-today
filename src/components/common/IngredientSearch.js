@@ -49,7 +49,7 @@ export default function IngredientSearch(props) {
           <TextField
             {...params}
             variant="outlined"
-            label={language.dictionary.ingredients}
+            label={language.dictionary.searchIngredients}
             placeholder={language.dictionary.search}
           />
         )}
