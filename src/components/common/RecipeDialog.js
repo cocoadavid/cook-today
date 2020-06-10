@@ -7,15 +7,7 @@ import Slide from "@material-ui/core/Slide";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Icon from "@mdi/react";
-import {
-  mdiBarleyOff,
-  mdiBatteryOff,
-  mdiCircleOutline,
-  mdiGoogleFit,
-  mdiLeaf,
-  mdiPiggyBank,
-  mdiStar,
-} from "@mdi/js";
+import { mdiCircleMedium } from "@mdi/js";
 import Typography from "@material-ui/core/Typography";
 import { LanguageContext } from "../../context/LanguageContext";
 import List from "@material-ui/core/List";
@@ -25,10 +17,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { convertToHoursAndMinutes } from "../../utils/helperFunctions";
 import Grid from "@material-ui/core/Grid";
+import { infoIcons } from "../../utils/icons";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
   extraInfo: {
-    margin: `8px 0 4px 0`,
+    padding: `4px 0`,
+    marginBottom: theme.spacing(2),
   },
   iconContainer: {
     display: "flex",
@@ -46,11 +41,13 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
   },
-  badge: {
-    margin: "4px 8px",
-  },
   dialogTitle: {
     backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    textAlign: "center",
+  },
+  title: {
+    fontWeight: 500,
     color: theme.palette.primary.contrastText,
   },
   list: {
@@ -61,15 +58,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const icons = [
-  { title: "gluten-free", path: mdiBarleyOff, name: "glutenFree" },
-  { title: "dairy-free", path: mdiBatteryOff, name: "dairyFree" },
-  { title: "vegetarian", path: mdiLeaf, name: "vegetarian" },
-  { title: "healthy", path: mdiGoogleFit, name: "veryHealthy" },
-  { title: "budget-friendly", path: mdiPiggyBank, name: "cheap" },
-  { title: "popular", path: mdiStar, name: "veryPopular" },
-];
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -77,7 +65,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
   const language = useContext(LanguageContext);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyles();
   return (
     <Dialog
@@ -92,7 +80,7 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
         id={`recipe-dialog-${recipeId}`}
         className={classes.dialogTitle}
       >
-        <Typography variant="h5" component="span">
+        <Typography variant="h5" component="span" className={classes.title}>
           {recipeInfo.title}
         </Typography>
       </DialogTitle>
@@ -116,7 +104,7 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
             </Typography>
           </Grid>
           <Grid item xs={4} sm={6} className={classes.iconContainer}>
-            {icons.map(
+            {infoIcons.map(
               (item) =>
                 recipeInfo[item.name] && (
                   <Avatar
@@ -136,7 +124,7 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
             recipeInfo.extendedIngredients.map((item) => (
               <ListItem key={item.original}>
                 <ListItemIcon style={{ minWidth: 32 }}>
-                  <Icon path={mdiCircleOutline} size={0.75} />
+                  <Icon path={mdiCircleMedium} size={0.8} />
                   {/*<img*/}
                   {/*  alt={item.name}*/}
                   {/*  src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}*/}
@@ -163,6 +151,16 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
               </ListItem>
             ))}
         </List>
+        <Typography variant="caption" gutterBottom>
+          Recipe from{" "}
+          <Link
+            href={recipeInfo.sourceUrl || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {recipeInfo.sourceName || "source"}
+          </Link>
+        </Typography>
       </DialogContent>
     </Dialog>
   );

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getExampleRecipeInfo, getExampleRecipes } from "../api/mockApi";
+import { getExampleRecipes } from "../api/mockApi";
 import Grid from "@material-ui/core/Grid";
 import IngredientSearch from "../components/common/IngredientSearch";
-import {
-  getInstructions,
-  getRecipeInfoById,
-  getRecipesByIngredients,
-} from "../api/spoonacularApi";
-import RecipeCardByIngredientsList from "../components/homePage/RecipeCardByIngredientsList";
+import { getRecipesComplex } from "../api/spoonacularApi";
+import RecipeCardList from "../components/homePage/RecipeCardList";
 import RecipeDialog from "../components/common/RecipeDialog";
 
 const HomePage = () => {
@@ -43,7 +39,7 @@ const HomePage = () => {
           <IngredientSearch onSelection={onIngredientSelect} />
         </Grid>
       </Grid>
-      <RecipeCardByIngredientsList
+      <RecipeCardList
         recipes={recipes}
         zoomIn={zoomIn}
         onRecipeClick={onRecipeClick}
@@ -58,27 +54,34 @@ const HomePage = () => {
   );
 
   function loadRecipes(ingredients) {
-    getRecipesByIngredients(ingredients)
+    getRecipesComplex(ingredients)
       .then((res) => {
         console.log("recipes:", res.data);
-        setRecipes(res.data);
+        setRecipes(res.data.results);
         setZoomIn(true);
       })
       .catch((error) => console.log(error));
+    // getRecipesByIngredients(ingredients)
+    //   .then((res) => {
+    //     console.log("recipes:", res.data);
+    //     setRecipes(res.data);
+    //     setZoomIn(true);
+    //   })
+    //   .catch((error) => console.log(error));
   }
 
   function loadRecipeById(id) {
-    // setSelectedRecipeInfo(getExampleRecipeInfo());
-    // setDlgOpen(true);
-    // console.log(getExampleRecipeInfo());
-
-    getRecipeInfoById(id)
-      .then((res) => {
-        console.log("recipe", res.data);
-        setSelectedRecipeInfo(res.data);
-        setDlgOpen(true);
-      })
-      .catch((error) => console.log(error));
+    const clickedRecipe = recipes.find((recipe) => recipe.id === id);
+    console.log(clickedRecipe);
+    setSelectedRecipeInfo(clickedRecipe);
+    setDlgOpen(true);
+    // getRecipeInfoById(id)
+    //   .then((res) => {
+    //     console.log("recipe", res.data);
+    //     setSelectedRecipeInfo(res.data);
+    //     setDlgOpen(true);
+    //   })
+    //   .catch((error) => console.log(error));
   }
 };
 

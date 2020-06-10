@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Zoom from "@material-ui/core/Zoom";
-import RecipeCardByIngredient from "./RecipeCardByIngredients";
+import RecipeCardByIngredient from "./RecipeCard";
 
-const RecipeCardByIngredientsList = ({ recipes, zoomIn, onRecipeClick }) => {
+const RecipeCardList = ({ recipes, zoomIn, onRecipeClick }) => {
   return (
     <Grid container spacing={2}>
       {recipes.map((r, idx) => (
@@ -25,10 +25,10 @@ const RecipeCardByIngredientsList = ({ recipes, zoomIn, onRecipeClick }) => {
   );
 };
 
-RecipeCardByIngredientsList.propTypes = {
+RecipeCardList.propTypes = {
   recipes: PropTypes.array.isRequired,
   zoomIn: PropTypes.bool.isRequired,
   onRecipeClick: PropTypes.func.isRequired,
 };
 
-export default RecipeCardByIngredientsList;
+export default RecipeCardList;

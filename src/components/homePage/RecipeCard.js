@@ -4,13 +4,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import CardActions from "@material-ui/core/CardActions";
+import ScheduleIcon from "@material-ui/icons/Schedule";
 import Icon from "@mdi/react";
-import { mdiFoodVariant } from "@mdi/js";
-import Badge from "@material-ui/core/Badge";
+import { infoIcons } from "../../utils/icons";
+import { convertToHoursAndMinutes } from "../../utils/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100%",
+    // height: "100%",
     cursor: "pointer",
     position: "relative",
     maxWidth: 400, // image width resolution is 393px
@@ -74,6 +76,14 @@ const useStyles = makeStyles((theme) => ({
   badge: {
     margin: "4px 8px",
   },
+  content: {
+    padding: "8px 16px 4px",
+  },
+  footer: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "4px 16px 8px",
+  },
 }));
 
 const RecipeCardByIngredient = ({ recipe, ...props }) => {
@@ -89,7 +99,7 @@ const RecipeCardByIngredient = ({ recipe, ...props }) => {
   return (
     <Card
       className={classes.root}
-      elevation={2}
+      elevation={4}
       onClick={() => props.onClick(recipe.id)}
     >
       <div className={classes.media}>
@@ -113,26 +123,56 @@ const RecipeCardByIngredient = ({ recipe, ...props }) => {
           </Typography>
         </div>
       </div>
-      <CardContent>
-        <Typography variant="h6" component="h3" color="primary" align="center">
+      <CardContent className={classes.content}>
+        <Typography
+          variant="h6"
+          component="h3"
+          color="textPrimary"
+          align="center"
+        >
           {recipe.title}
         </Typography>
       </CardContent>
-      <div
-        className={classes.badgeContainer}
-        title={"The number of ingredients"}
-      >
-        <Badge
-          className={classes.badge}
-          badgeContent={
-            recipe.usedIngredientCount + recipe.missedIngredientCount
-          }
-          color="secondary"
-          showZero
+      <CardActions disableSpacing className={classes.footer}>
+        <div
+          style={{ display: "flex", alignItems: "center" }}
+          title="prepartion time"
         >
-          <Icon size={1} color={"#F2385A"} path={mdiFoodVariant} />
-        </Badge>
-      </div>
+          <ScheduleIcon color="primary" style={{ marginRight: 6 }} />{" "}
+          <Typography variant="subtitle2" color="textSecondary">
+            {convertToHoursAndMinutes(recipe.readyInMinutes)}
+          </Typography>
+        </div>
+        <div>
+          {infoIcons.map(
+            (icon) =>
+              recipe[icon.name] && (
+                <Icon
+                  key={`recipe_card_${icon.name}`}
+                  path={icon.path}
+                  color="#F2385A"
+                  size={1}
+                  title={icon.title}
+                />
+              )
+          )}
+        </div>
+      </CardActions>
+      {/*<div*/}
+      {/*  className={classes.badgeContainer}*/}
+      {/*  title={"The number of ingredients"}*/}
+      {/*>*/}
+      {/*  <Badge*/}
+      {/*    className={classes.badge}*/}
+      {/*    badgeContent={*/}
+      {/*      recipe.usedIngredientCount + recipe.missedIngredientCount*/}
+      {/*    }*/}
+      {/*    color="secondary"*/}
+      {/*    showZero*/}
+      {/*  >*/}
+      {/*    <Icon size={1} color={"#F2385A"} path={mdiFoodVariant} />*/}
+      {/*  </Badge>*/}
+      {/*</div>*/}
     </Card>
   );
 };

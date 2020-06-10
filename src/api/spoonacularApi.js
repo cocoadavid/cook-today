@@ -2,6 +2,23 @@ import { env } from "../properties";
 import axios from "axios";
 const root = env.apiRoot;
 
+// https://spoonacular.com/food-api/docs#Search-Recipes-Complex
+export const getRecipesComplex = async (ingredients, query, maxReadyTime) => {
+  let url = `${root}recipes/complexSearch`;
+  return await axios.get(url, {
+    params: {
+      apiKey: env.apiKey,
+      instructionsRequired: true,
+      addRecipeInformation: true,
+      fillIngredients: true,
+      number: 4, // The number of expected results (between 1 and 100).
+      includeIngredients: ingredients, // A comma-separated list of ingredients that should/must be used in the recipes.
+      query, // The (natural language) recipe search query
+      maxReadyTime,
+    },
+  });
+};
+
 export const getRecipesByIngredients = async (ingredients) => {
   let url = `${root}recipes/findByIngredients`;
   return await axios.get(url, {
