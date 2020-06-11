@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getExampleRecipes } from "../api/mockApi";
 import Grid from "@material-ui/core/Grid";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import IngredientSearch from "../components/common/IngredientSearch";
 import { getRecipesComplex } from "../api/spoonacularApi";
 import RecipeCardList from "../components/homePage/RecipeCardList";
 import RecipeDialog from "../components/common/RecipeDialog";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -12,13 +16,72 @@ const HomePage = () => {
   const [selectedRecipeInfo, setSelectedRecipeInfo] = useState({});
   const [dlgOpen, setDlgOpen] = useState(false);
   const [zoomIn, setZoomIn] = useState(false);
+  const [loadingRecipes, setLoadingRecipes] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
+  const [diets, setDiets] = useState([]);
+  const [intolerances, setIntolerances] = useState([]);
+  const [checkBoxState, setCheckboxState] = useState({
+    glutenFree: false,
+    dairyFree: false,
+    vegetarian: false,
+    vegan: false,
+  });
+  const { glutenFree, dairyFree, vegetarian, vegan } = checkBoxState;
 
   const onIngredientSelect = (value = []) => {
     // value is an array of objects
-    let ingredientListString = value.map((o) => o.name).join(",");
-    if (ingredientListString) {
-      setZoomIn(false);
-      loadRecipes(ingredientListString);
+    setIngredients(value);
+  };
+
+  const handleCheckBoxChange = (event) => {
+    const name = event.target.name;
+    const checked = event.target.checked;
+    setCheckboxState({
+      ...checkBoxState,
+      [name]: checked,
+    });
+    switch (name) {
+      case "glutenFree":
+        handleIntoleranceChange("gluten", checked);
+        break;
+      case "dairyFree":
+        handleIntoleranceChange("dairy", checked);
+        break;
+      case "vegetarian":
+        handleDietsChange(name, checked);
+        break;
+      case "vegan":
+        handleDietsChange(name, checked);
+        break;
+      default:
+        console.log("this filter is unhandled: ", name);
+        break;
+    }
+  };
+
+  const handleDietsChange = (name, checked) => {
+    let dietsCopy = [...diets];
+    if (checked) {
+      setDiets([...diets, name]);
+    } else {
+      let idx = dietsCopy.indexOf(name);
+      if (idx > -1) {
+        dietsCopy.splice(idx, 1);
+      }
+      setDiets(dietsCopy);
+    }
+  };
+
+  const handleIntoleranceChange = (name, checked) => {
+    let intolerancesCopy = [...intolerances];
+    if (checked) {
+      setIntolerances([...intolerances, name]);
+    } else {
+      let idx = intolerancesCopy.indexOf(name);
+      if (idx > -1) {
+        intolerancesCopy.splice(idx, 1);
+      }
+      setIntolerances(intolerancesCopy);
     }
   };
 
@@ -28,6 +91,13 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    if (ingredients.length > 0) {
+      console.log("loading...");
+      loadRecipes(ingredients, intolerances, diets);
+    }
+  }, [ingredients, intolerances, diets]);
+
+  useEffect(() => {
     setRecipes(getExampleRecipes());
     setZoomIn(true);
   }, []);
@@ -35,10 +105,55 @@ const HomePage = () => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={6} xl={4}>
+        <Grid item xs={12} lg={6}>
           <IngredientSearch onSelection={onIngredientSelect} />
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={glutenFree}
+                  onChange={handleCheckBoxChange}
+                  name="glutenFree"
+                />
+              }
+              label="gluten-free"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={dairyFree}
+                  onChange={handleCheckBoxChange}
+                  name="dairyFree"
+                />
+              }
+              label="dairy-free"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={vegetarian}
+                  onChange={handleCheckBoxChange}
+                  name="vegetarian"
+                />
+              }
+              label="vegetarian"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={vegan}
+                  onChange={handleCheckBoxChange}
+                  name="vegan"
+                />
+              }
+              label="vegan"
+            />
+          </FormGroup>
         </Grid>
       </Grid>
+      <div style={{ height: 4 }}>
+        {loadingRecipes && <LinearProgress color="secondary" />}
+      </div>
       <RecipeCardList
         recipes={recipes}
         zoomIn={zoomIn}
@@ -53,21 +168,20 @@ const HomePage = () => {
     </>
   );
 
-  function loadRecipes(ingredients) {
-    getRecipesComplex(ingredients)
+  function loadRecipes(ingredientsArray, intolerancesArray, dietsArray) {
+    let ingredientsString = ingredientsArray.map((o) => o.name).join(",");
+    let intolerancesString = intolerancesArray.join(",");
+    let dietsString = dietsArray.join(",");
+
+    setLoadingRecipes(true);
+    getRecipesComplex(ingredientsString, intolerancesString, dietsString)
       .then((res) => {
         console.log("recipes:", res.data);
         setRecipes(res.data.results);
         setZoomIn(true);
       })
-      .catch((error) => console.log(error));
-    // getRecipesByIngredients(ingredients)
-    //   .then((res) => {
-    //     console.log("recipes:", res.data);
-    //     setRecipes(res.data);
-    //     setZoomIn(true);
-    //   })
-    //   .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setLoadingRecipes(false));
   }
 
   function loadRecipeById(id) {

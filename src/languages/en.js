@@ -22,8 +22,9 @@ const en = {
   registrationForFreeIceCream: "Registration for Free Ice Cream",
   search: "Search",
   searchIngredients: "Search Ingredients",
+  searchByIngredients: "Search Recipes By Ingredients",
   showCode: "Show me the code",
-  starWarsMovies: "Star Wars movies",
+  startTyping: "Start typing...",
   type: "Type",
   user: "User",
 };

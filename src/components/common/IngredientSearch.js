@@ -9,6 +9,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import _ from "lodash";
 import { getIngredients } from "../../api/spoonacularApi";
 import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +42,7 @@ export default function IngredientSearch(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root} elevation={2}>
       <Autocomplete
         fullWidth
         multiple
@@ -72,12 +73,12 @@ export default function IngredientSearch(props) {
           <TextField
             {...params}
             variant="outlined"
-            label={language.dictionary.searchIngredients}
-            placeholder={language.dictionary.search}
+            label={language.dictionary.searchByIngredients}
+            placeholder={language.dictionary.startTyping}
           />
         )}
       />
-    </div>
+    </Paper>
   );
 
   function loadIngredients(query) {

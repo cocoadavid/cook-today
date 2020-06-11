@@ -136,7 +136,7 @@ const RecipeCardByIngredient = ({ recipe, ...props }) => {
       <CardActions disableSpacing className={classes.footer}>
         <div
           style={{ display: "flex", alignItems: "center" }}
-          title="prepartion time"
+          title="preparation time"
         >
           <ScheduleIcon color="primary" style={{ marginRight: 6 }} />{" "}
           <Typography variant="subtitle2" color="textSecondary">

@@ -1,5 +1,5 @@
 import { themeDefault } from "./themes/themeDefault";
-import {menuItems} from "./menuItems";
+import { menuItems } from "./menuItems";
 
 const profiles = {
   TEST: {
@@ -20,4 +20,17 @@ const profiles = {
   },
 };
 
-export const env = profiles.TEST;
+let profile;
+switch (process.env.REACT_APP_STAGE) {
+  case "TEST":
+    profile = profiles.TEST;
+    break;
+  case "PROD":
+    profile = profiles.PROD;
+    break;
+  default:
+    profile = profiles.TEST;
+    break;
+}
+
+export const env = profile;

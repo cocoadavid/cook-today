@@ -13,7 +13,6 @@ const RecipeCardList = ({ recipes, zoomIn, onRecipeClick }) => {
           in={zoomIn}
           mountOnEnter
           unmountOnExit
-          timeout={300}
           style={{ transitionDelay: idx * 49 + 1 }}
         >
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
