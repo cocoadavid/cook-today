@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
@@ -185,7 +185,6 @@ const VerticalNavigation = (props) => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
