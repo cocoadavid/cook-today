@@ -29,15 +29,11 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import Paper from "@material-ui/core/Paper";
 import VerticalMenuList from "./VerticalMenuList";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 const drawerWidth = 240;
 const minHeight = 48;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // display: "flex"
-  },
   logo: {
     maxHeight: theme.spacing(5),
   },
@@ -121,9 +117,7 @@ const useStyles = makeStyles((theme) => ({
   collapse: {
     display: "inline-flex",
     position: "absolute",
-    // top: 0,
     left: 0,
-    // width: "100%",
     marginTop: minHeight + 1,
   },
   collapseMenu: {
@@ -188,7 +182,7 @@ const HorizontalNavigation = ({ content, withIcon, ...props }) => {
     </div>
   );
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="sticky">
         <Toolbar variant="dense" className={classes.xlToolbar}>
           <IconButton
