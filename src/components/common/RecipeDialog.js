@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -14,6 +13,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { convertToHoursAndMinutes } from "../../utils/helperFunctions";
 import Grid from "@material-ui/core/Grid";
@@ -47,14 +50,18 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   title: {
-    fontWeight: 500,
-    color: theme.palette.primary.contrastText,
+    // fontWeight: 500,
+    // color: theme.palette.primary.contrastText,
+    flexGrow: 1,
   },
   list: {
     marginBottom: theme.spacing(2),
   },
   methodListItem: {
     alignItems: "baseline",
+  },
+  appBar: {
+    position: "relative",
   },
 }));
 
@@ -76,14 +83,21 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
       aria-labelledby="recipe-dialog"
       fullScreen={fullScreen}
     >
-      <DialogTitle
-        id={`recipe-dialog-${recipeId}`}
-        className={classes.dialogTitle}
-      >
-        <Typography variant="h5" component="span" className={classes.title}>
-          {recipeInfo.title}
-        </Typography>
-      </DialogTitle>
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            {recipeInfo.title}
+          </Typography>
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       <DialogContent>
         <div className={classes.imgContainer}>
           <img
