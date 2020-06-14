@@ -3,7 +3,6 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
-import HomePage from "./homePage/HomePage";
 import PageNotFound from "../routes/PageNotFound";
 import { env } from "../properties";
 import NavigationBar from "./common/NavigationBar";
@@ -33,7 +32,6 @@ function App() {
             content={
               <Container maxWidth="xl">
                 <Switch>
-                  <Route exact path="/" component={HomePage} />
                   {routes.map((r, idx) => (
                     <Route
                       exact={r.exact}
