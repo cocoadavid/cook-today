@@ -3,7 +3,7 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
-import HomePage from "../routes/HomePage";
+import HomePage from "./homePage/HomePage";
 import PageNotFound from "../routes/PageNotFound";
 import { env } from "../properties";
 import NavigationBar from "./common/NavigationBar";
@@ -13,6 +13,7 @@ import moment from "moment";
 import MomentUtils from "@date-io/moment";
 import "moment/locale/hu";
 import Container from "@material-ui/core/Container";
+import routes from "../routes";
 moment.locale("hu");
 
 const theme = createMuiTheme(env.theme);
@@ -33,23 +34,14 @@ function App() {
               <Container maxWidth="xl">
                 <Switch>
                   <Route exact path="/" component={HomePage} />
-                  {env.menuItems.map((menuItem) =>
-                    menuItem.children ? (
-                      menuItem.children.map((childItem) => (
-                        <Route
-                          key={childItem.url}
-                          path={childItem.url}
-                          component={childItem.component}
-                        />
-                      ))
-                    ) : (
-                      <Route
-                        key={menuItem.url}
-                        path={menuItem.url}
-                        component={menuItem.component}
-                      />
-                    )
-                  )}
+                  {routes.map((r, idx) => (
+                    <Route
+                      exact={r.exact}
+                      path={r.path}
+                      component={r.component}
+                      key={`${r.path}_${idx}`}
+                    />
+                  ))}
                   <Route component={PageNotFound} />
                 </Switch>
               </Container>

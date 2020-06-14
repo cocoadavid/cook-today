@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getExampleRecipes } from "../api/mockApi";
+import { getExampleRecipes } from "../../api/mockApi";
 import Grid from "@material-ui/core/Grid";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import IngredientSearch from "../components/common/IngredientSearch";
-import { getRecipesComplex } from "../api/spoonacularApi";
-import RecipeCardList from "../components/homePage/RecipeCardList";
-import RecipeDialog from "../components/common/RecipeDialog";
+import IngredientSearch from "../common/IngredientSearch";
+import { getRecipesComplex } from "../../api/spoonacularApi";
+import RecipeCardList from "./RecipeCardList";
+import RecipeDialog from "../common/RecipeDialog";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 const HomePage = () => {
