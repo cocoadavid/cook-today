@@ -3,9 +3,9 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
-import { LanguageContext } from "../context/LanguageContext";
+import { LanguageContext } from "../../context/LanguageContext";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   fullScreen: {
     position: "absolute",
     top: 0,
@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ebebeb"
+    backgroundColor: "#ebebeb",
   },
   title: {
-    fontSize: "6rem"
+    fontSize: "6rem",
   },
   paper: {
     display: "flex",
@@ -32,22 +32,22 @@ const useStyles = makeStyles(theme => ({
     transition: "all ease 0.2s",
     "&:active": {
       boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px",
-      transform: "translateY(5px)"
+      transform: "translateY(5px)",
     },
     "&:hover": {
       textDecoration: "none",
-      cursor: "pointer"
+      cursor: "pointer",
     },
     [theme.breakpoints.down("xs")]: {
       borderRadius: 0,
       height: "100%",
-      width: "100%"
-    }
+      width: "100%",
+    },
   },
   button: {
     margin: theme.spacing(2),
-    fontSize: "1.125rem"
-  }
+    fontSize: "1.125rem",
+  },
 }));
 
 const PageNotFound = () => {

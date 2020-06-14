@@ -17,7 +17,7 @@ const en = {
   logout: "Log Out",
   name: "Name",
   pageNotFound: "Page not found",
-  pageNotFoundLong: "Sorry, we couldn't found the page you are looking for.",
+  pageNotFoundLong: "Sorry, we couldn't find the page you are looking for.",
   pushMe: "Push Me!",
   registrationForFreeIceCream: "Registration for Free Ice Cream",
   search: "Search",

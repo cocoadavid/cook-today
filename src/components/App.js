@@ -3,7 +3,7 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
-import PageNotFound from "../routes/PageNotFound";
+import PageNotFound from "./errorPages/PageNotFound";
 import { env } from "../properties";
 import NavigationBar from "./common/NavigationBar";
 import LanguageProvider from "../context/LanguageContext";
