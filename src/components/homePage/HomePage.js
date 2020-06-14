@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getExampleRecipes } from "../../api/mockApi";
 import Grid from "@material-ui/core/Grid";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import IngredientSearch from "../common/IngredientSearch";
 import { getRecipesComplex } from "../../api/spoonacularApi";
 import RecipeCardList from "./RecipeCardList";
 import RecipeDialog from "../common/RecipeDialog";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import SearchCheckboxes from "./SearchCheckboxes";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -107,48 +105,13 @@ const HomePage = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} lg={6}>
           <IngredientSearch onSelection={onIngredientSelect} />
-          <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={glutenFree}
-                  onChange={handleCheckBoxChange}
-                  name="glutenFree"
-                />
-              }
-              label="gluten-free"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={dairyFree}
-                  onChange={handleCheckBoxChange}
-                  name="dairyFree"
-                />
-              }
-              label="dairy-free"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={vegetarian}
-                  onChange={handleCheckBoxChange}
-                  name="vegetarian"
-                />
-              }
-              label="vegetarian"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={vegan}
-                  onChange={handleCheckBoxChange}
-                  name="vegan"
-                />
-              }
-              label="vegan"
-            />
-          </FormGroup>
+          <SearchCheckboxes
+            handleCheckboxChange={handleCheckBoxChange}
+            glutenFree={glutenFree}
+            dairyFree={dairyFree}
+            vegetarian={vegetarian}
+            vegan={vegan}
+          />
         </Grid>
       </Grid>
       <div style={{ height: 4 }}>
