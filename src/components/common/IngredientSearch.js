@@ -13,7 +13,6 @@ import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // width: 500,
     "& > * + *": {
       marginTop: theme.spacing(3),
     },

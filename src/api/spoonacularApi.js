@@ -7,6 +7,7 @@ export const getRecipesComplex = async (
   ingredients,
   intolerances,
   diet,
+  offset = 0,
   query,
   maxReadyTime
 ) => {
@@ -22,6 +23,7 @@ export const getRecipesComplex = async (
       includeIngredients: ingredients, // A comma-separated list of ingredients that should/must be used in the recipes.
       diet: diet || undefined, // https://spoonacular.com/food-api/docs#Diets
       intolerances: intolerances || undefined, // https://spoonacular.com/food-api/docs#Intolerances
+      offset,
       query, // The (natural language) recipe search query
       maxReadyTime,
     },

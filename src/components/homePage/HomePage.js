@@ -15,6 +15,7 @@ const HomePage = () => {
   const [dlgOpen, setDlgOpen] = useState(false);
   const [zoomIn, setZoomIn] = useState(false);
   const [loadingRecipes, setLoadingRecipes] = useState(false);
+  const [offset, setOffset] = useState(0);
   const [ingredients, setIngredients] = useState([]);
   const [diets, setDiets] = useState([]);
   const [intolerances, setIntolerances] = useState([]);
@@ -88,6 +89,12 @@ const HomePage = () => {
     setSelectedRecipeId(id);
   };
 
+  const loadMoreRecipe = () => {
+    let newOffset = offset + parseInt(process.env.REACT_APP_MAX_RECIPE_NUMBER);
+    setOffset(newOffset);
+    loadRecipes(ingredients, intolerances, diets, newOffset);
+  };
+
   useEffect(() => {
     if (ingredients.length > 0) {
       console.log("loading...");
@@ -121,6 +128,8 @@ const HomePage = () => {
         recipes={recipes}
         zoomIn={zoomIn}
         onRecipeClick={onRecipeClick}
+        loadMore={loadMoreRecipe}
+        loading={loadingRecipes}
       />
       <RecipeDialog
         open={dlgOpen}
@@ -131,16 +140,28 @@ const HomePage = () => {
     </>
   );
 
-  function loadRecipes(ingredientsArray, intolerancesArray, dietsArray) {
+  function loadRecipes(
+    ingredientsArray,
+    intolerancesArray,
+    dietsArray,
+    offset
+  ) {
     let ingredientsString = ingredientsArray.map((o) => o.name).join(",");
     let intolerancesString = intolerancesArray.join(",");
     let dietsString = dietsArray.join(",");
 
     setLoadingRecipes(true);
-    getRecipesComplex(ingredientsString, intolerancesString, dietsString)
+    getRecipesComplex(
+      ingredientsString,
+      intolerancesString,
+      dietsString,
+      offset
+    )
       .then((res) => {
         console.log("recipes:", res.data);
-        setRecipes(res.data.results);
+        offset
+          ? setRecipes([...recipes, ...res.data.results])
+          : setRecipes(res.data.results);
         setZoomIn(true);
       })
       .catch((error) => console.log(error))

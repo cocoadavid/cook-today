@@ -12,9 +12,12 @@ import { convertToHoursAndMinutes } from "../../utils/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: "100%",
+    height: "100%",
     cursor: "pointer",
     position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     maxWidth: 400, // image width resolution is 393px
     "&:hover": {
       "& img": {
@@ -86,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipeCardByIngredient = ({ recipe, ...props }) => {
+const RecipeCard = ({ recipe, ...props }) => {
   const classes = useStyles();
   const [imgLoaded, setImgLoaded] = useState({});
 
@@ -158,28 +161,13 @@ const RecipeCardByIngredient = ({ recipe, ...props }) => {
           )}
         </div>
       </CardActions>
-      {/*<div*/}
-      {/*  className={classes.badgeContainer}*/}
-      {/*  title={"The number of ingredients"}*/}
-      {/*>*/}
-      {/*  <Badge*/}
-      {/*    className={classes.badge}*/}
-      {/*    badgeContent={*/}
-      {/*      recipe.usedIngredientCount + recipe.missedIngredientCount*/}
-      {/*    }*/}
-      {/*    color="secondary"*/}
-      {/*    showZero*/}
-      {/*  >*/}
-      {/*    <Icon size={1} color={"#F2385A"} path={mdiFoodVariant} />*/}
-      {/*  </Badge>*/}
-      {/*</div>*/}
     </Card>
   );
 };
 
-RecipeCardByIngredient.propTypes = {
+RecipeCard.propTypes = {
   recipe: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-export default RecipeCardByIngredient;
+export default RecipeCard;
