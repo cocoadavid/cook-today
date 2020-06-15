@@ -152,13 +152,6 @@ const HomePage = () => {
     console.log(clickedRecipe);
     setSelectedRecipeInfo(clickedRecipe);
     setDlgOpen(true);
-    // getRecipeInfoById(id)
-    //   .then((res) => {
-    //     console.log("recipe", res.data);
-    //     setSelectedRecipeInfo(res.data);
-    //     setDlgOpen(true);
-    //   })
-    //   .catch((error) => console.log(error));
   }
 };
 
