@@ -145,13 +145,6 @@ const HomePage = () => {
             searchType={searchType}
             onClick={handleSearchTypeChange}
           />
-          {/*<SearchCheckboxes*/}
-          {/*  handleCheckboxChange={handleCheckBoxChange}*/}
-          {/*  glutenFree={glutenFree}*/}
-          {/*  dairyFree={dairyFree}*/}
-          {/*  vegetarian={vegetarian}*/}
-          {/*  vegan={vegan}*/}
-          {/*/>*/}
         </Grid>
         <Grid xs={12} md={6} item>
           <SearchCheckboxes
