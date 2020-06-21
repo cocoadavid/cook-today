@@ -26,6 +26,7 @@ const hu = {
   search: "Keresés",
   searchIngredients: "Hozzávalók keresése",
   searchByIngredients: "Receptek keresése hozzávalók szerint",
+  searchByTitle: "Receptek keresése név szerint",
   showCode: "Mutasd a kódot",
   startTyping: "Kezdd el gépelni az alapanyag nevét",
   starWarsMovies: "Star Wars filmek",

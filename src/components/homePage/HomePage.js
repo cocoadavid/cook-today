@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getExampleRecipes } from "../../api/mockApi";
 import Grid from "@material-ui/core/Grid";
-import IngredientSearch from "../common/IngredientSearch";
+import IngredientSearch from "./IngredientSearch";
 import { getRecipesComplex } from "../../api/spoonacularApi";
 import RecipeCardList from "./RecipeCardList";
-import RecipeDialog from "../common/RecipeDialog";
+import RecipeDialog from "./RecipeDialog";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import SearchCheckboxes from "./SearchCheckboxes";
+import SearchTypeSelect from "./SearchTypeSelect";
+import { searchTypes } from "../../utils/enums";
+import QuerySearch from "./QuerySearch";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -14,6 +17,8 @@ const HomePage = () => {
   const [selectedRecipeInfo, setSelectedRecipeInfo] = useState({});
   const [dlgOpen, setDlgOpen] = useState(false);
   const [zoomIn, setZoomIn] = useState(false);
+  const [searchType, setSearchType] = useState(searchTypes.INGREDIENT);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loadingRecipes, setLoadingRecipes] = useState(false);
   const [offset, setOffset] = useState(0);
   const [ingredients, setIngredients] = useState([]);
@@ -30,6 +35,11 @@ const HomePage = () => {
   const onIngredientSelect = (value = []) => {
     // value is an array of objects
     setIngredients(value);
+  };
+
+  const handleQuerySearch = (query) => {
+    setSearchQuery(query);
+    loadRecipes([], intolerances, diets, 0, query);
   };
 
   const handleCheckBoxChange = (event) => {
@@ -89,16 +99,31 @@ const HomePage = () => {
     setSelectedRecipeId(id);
   };
 
+  const handleSearchTypeChange = (type) => (event) => {
+    switch (type) {
+      case searchTypes.INGREDIENT:
+        setSearchQuery("");
+        setSearchType(searchTypes.INGREDIENT);
+        break;
+      case searchTypes.TITLE:
+        setIngredients([]);
+        setSearchType(searchTypes.TITLE);
+        break;
+      default:
+        console.log(type, " not handled");
+        break;
+    }
+  };
+
   const loadMoreRecipe = () => {
     let newOffset = offset + parseInt(process.env.REACT_APP_MAX_RECIPE_NUMBER);
     setOffset(newOffset);
-    loadRecipes(ingredients, intolerances, diets, newOffset);
+    loadRecipes(ingredients, intolerances, diets, newOffset, searchQuery);
   };
 
   useEffect(() => {
-    if (ingredients.length > 0) {
-      console.log("loading...");
-      loadRecipes(ingredients, intolerances, diets);
+    if (ingredients.length > 0 || searchQuery) {
+      loadRecipes(ingredients, intolerances, diets, offset, searchQuery);
     }
   }, [ingredients, intolerances, diets]);
 
@@ -110,8 +135,25 @@ const HomePage = () => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} lg={6}>
-          <IngredientSearch onSelection={onIngredientSelect} />
+        <Grid item xs={12} md={6}>
+          {searchType === searchTypes.INGREDIENT ? (
+            <IngredientSearch onSelection={onIngredientSelect} />
+          ) : (
+            <QuerySearch onSubmit={handleQuerySearch} />
+          )}
+          <SearchTypeSelect
+            searchType={searchType}
+            onClick={handleSearchTypeChange}
+          />
+          {/*<SearchCheckboxes*/}
+          {/*  handleCheckboxChange={handleCheckBoxChange}*/}
+          {/*  glutenFree={glutenFree}*/}
+          {/*  dairyFree={dairyFree}*/}
+          {/*  vegetarian={vegetarian}*/}
+          {/*  vegan={vegan}*/}
+          {/*/>*/}
+        </Grid>
+        <Grid xs={12} md={6} item>
           <SearchCheckboxes
             handleCheckboxChange={handleCheckBoxChange}
             glutenFree={glutenFree}
@@ -144,7 +186,8 @@ const HomePage = () => {
     ingredientsArray,
     intolerancesArray,
     dietsArray,
-    offset
+    offset,
+    query
   ) {
     let ingredientsString = ingredientsArray.map((o) => o.name).join(",");
     let intolerancesString = intolerancesArray.join(",");
@@ -155,7 +198,8 @@ const HomePage = () => {
       ingredientsString,
       intolerancesString,
       dietsString,
-      offset
+      offset,
+      query
     )
       .then((res) => {
         console.log("recipes:", res.data);

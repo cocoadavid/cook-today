@@ -3,6 +3,13 @@ import PropTypes from "prop-types";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormGroup from "@material-ui/core/FormGroup";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  root: {
+    margin: 8,
+  },
+});
 
 const SearchCheckboxes = ({
   glutenFree,
@@ -11,8 +18,9 @@ const SearchCheckboxes = ({
   vegan,
   handleCheckboxChange,
 }) => {
+  const classes = useStyles();
   return (
-    <FormGroup row>
+    <FormGroup row className={classes.root}>
       <FormControlLabel
         control={
           <Checkbox

@@ -18,7 +18,6 @@ export const getRecipesComplex = async (
       instructionsRequired: true,
       addRecipeInformation: true,
       fillIngredients: true,
-      sort: "popularity", // https://spoonacular.com/food-api/docs#Recipe-Sorting-Options
       number: process.env.REACT_APP_MAX_RECIPE_NUMBER, // The number of expected results (between 1 and 100).
       includeIngredients: ingredients, // A comma-separated list of ingredients that should/must be used in the recipes.
       diet: diet || undefined, // https://spoonacular.com/food-api/docs#Diets

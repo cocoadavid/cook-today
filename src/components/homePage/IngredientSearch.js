@@ -41,7 +41,7 @@ export default function IngredientSearch(props) {
   };
 
   return (
-    <Paper className={classes.root} elevation={2}>
+    <Paper className={classes.root}>
       <Autocomplete
         fullWidth
         multiple
@@ -51,7 +51,6 @@ export default function IngredientSearch(props) {
         onInputChange={_.debounce(handleInputChange, 300)}
         onChange={handleChange}
         filterSelectedOptions
-        freeSolo
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip

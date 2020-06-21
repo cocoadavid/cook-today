@@ -136,14 +136,12 @@ const RecipeDialog = ({ open, handleClose, recipeId, recipeInfo }) => {
         <List className={classes.list} dense>
           {recipeInfo.extendedIngredients &&
             recipeInfo.extendedIngredients.map((item) => (
-              <ListItem key={item.original}>
+              <ListItem
+                key={item.original}
+                title={`metric: ${item.measures?.metric?.amount} ${item.measures?.metric?.unitShort} / US: ${item.measures?.us?.amount} ${item.measures?.us?.unitShort}`}
+              >
                 <ListItemIcon style={{ minWidth: 32 }}>
                   <Icon path={mdiCircleMedium} size={0.8} />
-                  {/*<img*/}
-                  {/*  alt={item.name}*/}
-                  {/*  src={`https://spoonacular.com/cdn/ingredients_100x100/${item.image}`}*/}
-                  {/*  style={{ width: 40, height: 40 }}*/}
-                  {/*/>*/}
                 </ListItemIcon>
                 <ListItemText primary={item.original} />
               </ListItem>
